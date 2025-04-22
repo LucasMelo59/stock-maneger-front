@@ -1,0 +1,194 @@
+:host {
+  display: block;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--primary-800) 0%, var(--primary-900) 100%);
+  box-shadow: var(--shadow-lg);
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--primary-color-text);
+}
+
+.sidebar-header {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-color-text);
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 0;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.sidebar-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.05);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--primary-200);
+
+      i {
+        font-size: 1.25rem;
+        color: var(--primary-200);
+      }
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .user-name {
+        font-weight: 600;
+        color: var(--primary-color-text);
+        font-size: 0.9rem;
+      }
+
+      .user-role {
+        font-size: 0.8rem;
+        color: var(--primary-200);
+      }
+    }
+  }
+}
+
+.custom-sidebar {
+  width: 100%;
+  border: none;
+  background: transparent;
+
+  ::ng-deep {
+    .p-panelmenu-panel {
+      border: none;
+      background: transparent !important;
+      border-radius: 0 !important;
+      .p-panelmenu-header {
+        background: transparent;
+        border: none;
+        margin: 0.25rem 0.75rem;
+        
+        a {
+          padding: 0.875rem 1rem;
+          border-radius: var(--border-radius-md);
+          transition: all 0.2s ease;
+          
+          .p-menuitem-icon {
+            color: var(--primary-200);
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+          }
+          
+          .p-menuitem-text {
+            color: var(--primary-color-text);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+          }
+
+          .p-panelmenu-icon {
+            color: var(--primary-200);
+            transition: all 0.2s ease;
+          }
+
+          &:hover {
+            .p-menuitem-icon,
+            .p-panelmenu-icon {
+              color: var(--primary-color-text);
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+      
+      .p-panelmenu-content {
+        border: none;
+        padding: 0.5rem;
+        margin: 0 0.75rem;
+        border-radius: var(--border-radius-md);
+        
+        .p-menuitem {
+          .p-menuitem-link {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-md);
+            transition: all 0.2s ease;
+            
+            .p-menuitem-icon {
+              color: var(--primary-200);
+              margin-right: 0.75rem;
+              font-size: 1rem;
+              transition: all 0.2s ease;
+            }
+            
+            .p-menuitem-text {
+              color: var(--primary-color-text);
+              font-weight: 500;
+              letter-spacing: 0.3px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

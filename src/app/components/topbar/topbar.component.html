@@ -1,0 +1,68 @@
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="p-button p-button-text p-button-rounded menu-button" (click)="toggleSidebar()">
+      <i class="pi pi-bars"></i>
+    </button>
+    <div class="breadcrumb">
+      <span class="breadcrumb-item">Dashboard</span>
+      <i class="pi pi-chevron-right"></i>
+      <span class="breadcrumb-item active">Visão Geral</span>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="search-box">
+      <i class="pi pi-search"></i>
+      <input type="text" placeholder="Pesquisar...">
+    </div>
+
+    <div class="topbar-actions">
+      <button class="p-button p-button-text p-button-rounded" pTooltip="Notificações">
+        <i class="pi pi-bell"></i>
+        <span class="notification-badge">3</span>
+      </button>
+
+      <button class="p-button p-button-text p-button-rounded" pTooltip="Mensagens">
+        <i class="pi pi-envelope"></i>
+        <span class="notification-badge">5</span>
+      </button>
+
+      <div class="user-menu" (click)="op.toggle($event)">
+        <div class="user-info">
+          <img src="assets/avatar.png" alt="User" class="user-avatar">
+          <div class="user-details">
+            <span class="user-name">John Doe</span>
+            <span class="user-role">Administrador</span>
+          </div>
+          <i class="pi pi-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-overlayPanel #op>
+    <div class="user-menu-content">
+      <div class="menu-header">
+        <img src="assets/avatar.png" alt="User" class="menu-avatar">
+        <div class="menu-user-info">
+          <span class="menu-user-name">John Doe</span>
+          <span class="menu-user-email">john.doeexample.com</span>
+        </div>
+      </div>
+      <div class="menu-items">
+        <button class="menu-item">
+          <i class="pi pi-user"></i>
+          <span>Meu Perfil</span>
+        </button>
+        <button class="menu-item">
+          <i class="pi pi-cog"></i>
+          <span>Configurações</span>
+        </button>
+        <button class="menu-item">
+          <i class="pi pi-sign-out"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </div>
+  </p-overlayPanel>
+</div>

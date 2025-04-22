@@ -1,0 +1,87 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Gerenciamento de Produtos</h2>
+    <button pButton label="Novo Produto" icon="pi pi-plus" (click)="showModal()" class="p-button-success"></button>
+  </div>
+
+  <p-table [value]="products" [loading]="loading" [paginator]="true" [rows]="10" styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Categoria</th>
+        <th>Estoque</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{product.id}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.price | currency:'BRL'}}</td>
+        <td>{{getCategoryLabel(product.category)}}</td>
+        <td>{{product.stock}}</td>
+        <td>
+          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-primary mr-2" (click)="showModal(product)"></button>
+          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteProduct(product)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">Nenhum produto encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog 
+  [(visible)]="displayModal" 
+  [header]="editingProduct ? 'Editar Produto' : 'Novo Produto'" 
+  [modal]="true" 
+  [style]="{width: '450px'}"
+  [draggable]="false" 
+  [resizable]="false">
+  
+  <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+    <div class="field">
+      <label for="name">Nome</label>
+      <input id="name" type="text" pInputText formControlName="name" class="w-full">
+      <small class="p-error" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+        Nome é obrigatório e deve ter no mínimo 3 caracteres
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="price">Preço</label>
+      <p-inputNumber id="price" formControlName="price" [minFractionDigits]="2" [maxFractionDigits]="2" mode="currency" currency="BRL" locale="pt-BR" class="w-full"></p-inputNumber>
+      <small class="p-error" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+        Preço é obrigatório e deve ser maior que zero
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="category">Categoria</label>
+      <p-dropdown id="category" [options]="categories" formControlName="category" optionLabel="label" optionValue="value" placeholder="Selecione uma categoria" class="w-full"></p-dropdown>
+      <small class="p-error" *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched">
+        Categoria é obrigatória
+      </small>
+    </div>
+
+    <div class="field">
+      <label for="stock">Estoque</label>
+      <p-inputNumber id="stock" formControlName="stock" [minFractionDigits]="0" [maxFractionDigits]="0" class="w-full"></p-inputNumber>
+      <small class="p-error" *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">
+        Estoque é obrigatório e deve ser maior que zero
+      </small>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideModal()"></button>
+    <button pButton label="Salvar" icon="pi pi-check" class="p-button-success" (click)="saveProduct()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
