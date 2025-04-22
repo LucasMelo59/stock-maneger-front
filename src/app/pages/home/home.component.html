@@ -1,87 +1,276 @@
-<div class="card">
-  <div class="card-header">
-    <h2>Gerenciamento de Produtos</h2>
-    <button pButton label="Novo Produto" icon="pi pi-plus" (click)="showModal()" class="p-button-success"></button>
+<div class="container">
+  <div class="card">
+    <p-toolbar>
+      <ng-template pTemplate="left">
+        <h2>Gerenciamento de Estoque</h2>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-toolbar-group-right">
+          <button pButton label="Novo Produto" icon="pi pi-plus" (click)="showProductModal()" class="custom-button mr-2"></button>
+          <button pButton label="Novo Usuário" icon="pi pi-user-plus" (click)="showUserModal()" class="custom-button mr-2"></button>
+          <button pButton label="Novo Container" icon="pi pi-box" (click)="showContainerModal()" class="custom-button mr-2"></button>
+          <button pButton label="Nova Movimentação" icon="pi pi-shopping-cart" (click)="showStockModal()" class="custom-button mr-2"></button>
+          <button pButton icon="pi pi-refresh" (click)="refreshData()" class="custom-button-secondary" pTooltip="Atualizar Lista"></button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
+    <p-table [value]="stockEvents" [loading]="loading" [paginator]="true" [rows]="10" styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Valor Unitário</th>
+          <th>Tipo</th>
+          <th>Local</th>
+          <th>Data</th>
+          <th>Usuário</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-event>
+        <tr>
+          <td>{{event.id}}</td>
+          <td>{{event.product.name}}</td>
+          <td>{{event.quantity}}</td>
+          <td>{{event.unitValue | currency:'BRL'}}</td>
+          <td>{{event.typeEvent}}</td>
+          <td>{{event.containerProduct.location}}</td>
+          <td>{{event.createAt | date:'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{event.user.name}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" class="text-center">Nenhuma movimentação encontrada.</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 
-  <p-table [value]="products" [loading]="loading" [paginator]="true" [rows]="10" styleClass="p-datatable-gridlines">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Preço</th>
-        <th>Categoria</th>
-        <th>Estoque</th>
-        <th>Ações</th>
-      </tr>
+  <!-- Modal de Produto -->
+  <p-dialog 
+    [(visible)]="displayProductModal" 
+    header="Novo Produto"
+    [modal]="true" 
+    [style]="{width: '450px'}"
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+      <div class="field">
+        <label for="productName">Nome do Produto</label>
+        <input id="productName" type="text" pInputText formControlName="name" class="w-full">
+        <small class="p-error" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+          Nome é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="productType">Tipo</label>
+        <input id="productType" type="text" pInputText formControlName="type" class="w-full">
+        <small class="p-error" *ngIf="productForm.get('type')?.invalid && productForm.get('type')?.touched">
+          Tipo é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="productSku">SKU</label>
+        <input id="productSku" type="text" pInputText formControlName="sku" class="w-full">
+        <small class="p-error" *ngIf="productForm.get('sku')?.invalid && productForm.get('sku')?.touched">
+          SKU é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="categoryId">ID da Categoria</label>
+        <p-inputNumber id="categoryId" formControlName="category_id" class="w-full"></p-inputNumber>
+        <small class="p-error" *ngIf="productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched">
+          Categoria é obrigatória
+        </small>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideProductModal()"></button>
+      <button pButton label="Salvar" icon="pi pi-check" class="custom-button" (click)="saveProduct()"></button>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
-      <tr>
-        <td>{{product.id}}</td>
-        <td>{{product.name}}</td>
-        <td>{{product.price | currency:'BRL'}}</td>
-        <td>{{getCategoryLabel(product.category)}}</td>
-        <td>{{product.stock}}</td>
-        <td>
-          <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-primary mr-2" (click)="showModal(product)"></button>
-          <button pButton icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteProduct(product)"></button>
-        </td>
-      </tr>
+  </p-dialog>
+
+  <!-- Modal de Usuário -->
+  <p-dialog 
+    [(visible)]="displayUserModal" 
+    header="Novo Usuário"
+    [modal]="true" 
+    [style]="{width: '450px'}"
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+      <div class="field">
+        <label for="userName">Nome do Usuário</label>
+        <input id="userName" type="text" pInputText formControlName="name" class="w-full">
+        <small class="p-error" *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+          Nome é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="userType">Tipo</label>
+        <p-dropdown id="userType" [options]="userTypes" formControlName="type" optionLabel="label" optionValue="value" class="w-full"></p-dropdown>
+        <small class="p-error" *ngIf="userForm.get('type')?.invalid && userForm.get('type')?.touched">
+          Tipo é obrigatório
+        </small>
+      </div>
+
+      <div formArrayName="documentation">
+        <div *ngFor="let doc of documentationControls; let i = index" [formGroupName]="i" class="documentation-item">
+          <h4>Documento {{i + 1}}</h4>
+          <div class="field">
+            <label>Tipo</label>
+            <p-dropdown [options]="documentTypes" formControlName="type" optionLabel="label" optionValue="value" class="w-full"></p-dropdown>
+          </div>
+          <div class="field">
+            <label>Descrição</label>
+            <input type="text" pInputText formControlName="description" class="w-full">
+          </div>
+          <div class="field">
+            <label>Número</label>
+            <input type="text" pInputText formControlName="reference_number" class="w-full">
+          </div>
+          <div class="field">
+            <label>Data de Emissão</label>
+            <p-calendar formControlName="issue_date" dateFormat="yy-mm-dd" class="w-full"></p-calendar>
+          </div>
+          <div class="field">
+            <label>Órgão Emissor</label>
+            <input type="text" pInputText formControlName="issuing_body" class="w-full">
+          </div>
+          <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" (click)="removeDocument(i)"></button>
+        </div>
+        <button pButton type="button" label="Adicionar Documento" icon="pi pi-plus" class="p-button-text" (click)="addDocument()"></button>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideUserModal()"></button>
+      <button pButton label="Salvar" icon="pi pi-check" class="custom-button" (click)="saveUser()"></button>
     </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="6" class="text-center">Nenhum produto encontrado.</td>
-      </tr>
+  </p-dialog>
+
+  <!-- Modal de Container -->
+  <p-dialog 
+    [(visible)]="displayContainerModal" 
+    header="Novo Container"
+    [modal]="true" 
+    [style]="{width: '450px'}"
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <form [formGroup]="containerForm" (ngSubmit)="saveContainer()">
+      <div class="field">
+        <label for="containerName">Nome do Container</label>
+        <input id="containerName" type="text" pInputText formControlName="name" class="w-full">
+        <small class="p-error" *ngIf="containerForm.get('name')?.invalid && containerForm.get('name')?.touched">
+          Nome é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="containerDescription">Descrição</label>
+        <textarea id="containerDescription" pInputTextarea formControlName="description" class="w-full"></textarea>
+        <small class="p-error" *ngIf="containerForm.get('description')?.invalid && containerForm.get('description')?.touched">
+          Descrição é obrigatória
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="containerLocation">Localização</label>
+        <input id="containerLocation" type="text" pInputText formControlName="location" class="w-full">
+        <small class="p-error" *ngIf="containerForm.get('location')?.invalid && containerForm.get('location')?.touched">
+          Localização é obrigatória
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="containerType">Tipo</label>
+        <input id="containerType" type="text" pInputText formControlName="type" class="w-full">
+        <small class="p-error" *ngIf="containerForm.get('type')?.invalid && containerForm.get('type')?.touched">
+          Tipo é obrigatório
+        </small>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideContainerModal()"></button>
+      <button pButton label="Salvar" icon="pi pi-check" class="custom-button" (click)="saveContainer()"></button>
     </ng-template>
-  </p-table>
+  </p-dialog>
+
+  <!-- Modal de Stock -->
+  <p-dialog 
+    [(visible)]="displayStockModal" 
+    header="Nova Movimentação"
+    [modal]="true" 
+    [style]="{width: '450px'}"
+    [draggable]="false" 
+    [resizable]="false">
+    
+    <form [formGroup]="stockForm" (ngSubmit)="saveStock()">
+      <div class="field">
+        <label for="productId">ID do Produto</label>
+        <p-inputNumber id="productId" formControlName="productId" class="w-full"></p-inputNumber>
+        <small class="p-error" *ngIf="stockForm.get('productId')?.invalid && stockForm.get('productId')?.touched">
+          ID do Produto é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="userId">ID do Usuário</label>
+        <p-inputNumber id="userId" formControlName="userId" class="w-full"></p-inputNumber>
+        <small class="p-error" *ngIf="stockForm.get('userId')?.invalid && stockForm.get('userId')?.touched">
+          ID do Usuário é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="containerId">ID do Container</label>
+        <p-inputNumber id="containerId" formControlName="containerId" class="w-full"></p-inputNumber>
+        <small class="p-error" *ngIf="stockForm.get('containerId')?.invalid && stockForm.get('containerId')?.touched">
+          ID do Container é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="event">Tipo de Evento</label>
+        <p-dropdown id="event" [options]="eventTypes" formControlName="event" optionLabel="label" optionValue="value" class="w-full"></p-dropdown>
+        <small class="p-error" *ngIf="stockForm.get('event')?.invalid && stockForm.get('event')?.touched">
+          Tipo de Evento é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="unitValue">Valor Unitário</label>
+        <p-inputNumber id="unitValue" formControlName="unitValue" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" class="w-full"></p-inputNumber>
+        <small class="p-error" *ngIf="stockForm.get('unitValue')?.invalid && stockForm.get('unitValue')?.touched">
+          Valor Unitário é obrigatório
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="quantity">Quantidade</label>
+        <p-inputNumber id="quantity" formControlName="quantity" class="w-full"></p-inputNumber>
+        <small class="p-error" *ngIf="stockForm.get('quantity')?.invalid && stockForm.get('quantity')?.touched">
+          Quantidade é obrigatória
+        </small>
+      </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideStockModal()"></button>
+      <button pButton label="Salvar" icon="pi pi-check" class="custom-button" (click)="saveStock()"></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-toast></p-toast>
 </div>
-
-<p-dialog 
-  [(visible)]="displayModal" 
-  [header]="editingProduct ? 'Editar Produto' : 'Novo Produto'" 
-  [modal]="true" 
-  [style]="{width: '450px'}"
-  [draggable]="false" 
-  [resizable]="false">
-  
-  <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
-    <div class="field">
-      <label for="name">Nome</label>
-      <input id="name" type="text" pInputText formControlName="name" class="w-full">
-      <small class="p-error" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
-        Nome é obrigatório e deve ter no mínimo 3 caracteres
-      </small>
-    </div>
-
-    <div class="field">
-      <label for="price">Preço</label>
-      <p-inputNumber id="price" formControlName="price" [minFractionDigits]="2" [maxFractionDigits]="2" mode="currency" currency="BRL" locale="pt-BR" class="w-full"></p-inputNumber>
-      <small class="p-error" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
-        Preço é obrigatório e deve ser maior que zero
-      </small>
-    </div>
-
-    <div class="field">
-      <label for="category">Categoria</label>
-      <p-dropdown id="category" [options]="categories" formControlName="category" optionLabel="label" optionValue="value" placeholder="Selecione uma categoria" class="w-full"></p-dropdown>
-      <small class="p-error" *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched">
-        Categoria é obrigatória
-      </small>
-    </div>
-
-    <div class="field">
-      <label for="stock">Estoque</label>
-      <p-inputNumber id="stock" formControlName="stock" [minFractionDigits]="0" [maxFractionDigits]="0" class="w-full"></p-inputNumber>
-      <small class="p-error" *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">
-        Estoque é obrigatório e deve ser maior que zero
-      </small>
-    </div>
-  </form>
-
-  <ng-template pTemplate="footer">
-    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideModal()"></button>
-    <button pButton label="Salvar" icon="pi pi-check" class="p-button-success" (click)="saveProduct()"></button>
-  </ng-template>
-</p-dialog>
-
-<p-toast></p-toast>

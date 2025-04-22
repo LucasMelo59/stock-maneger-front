@@ -6,9 +6,12 @@ import { environment } from '../../environments/environment';
 export interface Product {
   id?: number;
   name: string;
-  type: string;
-  sku: string;
-  category_id: number;
+  price: number;
+  category: string;
+  stock: number;
+  type?: string;
+  sku?: string;
+  category_id?: number;
 }
 
 @Injectable({
