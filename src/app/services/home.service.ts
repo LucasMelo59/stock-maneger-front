@@ -101,18 +101,18 @@ export class HomeService {
   }
 
   registerProduct(product: CreateProductDTO): Observable<ProductInfo> {
-    return this.http.post<ProductInfo>(`${this.apiUrl}/products/register`, product);
+    return this.http.post<ProductInfo>(`${this.apiUrl}/product`, product);
   }
 
   registerUser(user: CreateUserDTO): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/user/register`, user);
+    return this.http.post<User>(`${this.apiUrl}/user`, user);
   }
 
   registerContainer(container: CreateContainerDTO): Observable<ContainerProduct> {
-    return this.http.post<ContainerProduct>(`${this.apiUrl}/container/product/register`, container);
+    return this.http.post<ContainerProduct>(`${this.apiUrl}/container/product`, container);
   }
 
   registerStockFlow(stockFlow: CreateStockFlowDTO): Observable<StockEvent> {
-    return this.http.post<StockEvent>(`${this.apiUrl}/stock/register`, stockFlow);
+    return this.http.post<StockEvent>(`${this.apiUrl}/stock`, stockFlow);
   }
 } 
