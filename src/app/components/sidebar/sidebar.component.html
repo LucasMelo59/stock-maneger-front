@@ -1,26 +1,29 @@
-<div class="sidebar-container">
-    <div class="sidebar-header">
-        <div class="logo-container">
-            <img src="assets/logo.png" alt="Logo" class="logo">
-            <span class="logo-text">Stock Manager</span>
-        </div>
-    </div>
-
-    <div class="sidebar-content">
-        <div class="menu-section">
-            <p-panelMenu [model]="items" styleClass="custom-sidebar"></p-panelMenu>
-        </div>
-    </div>
-
-    <div class="sidebar-footer">
-        <div class="user-info">
-            <div class="user-avatar">
-                <i class="pi pi-user"></i>
-            </div>
-            <div class="user-details">
-                <span class="user-name">Usuário</span>
-                <span class="user-role">Administrador</span>
+@if (visible()) {
+    <div class="sidebar-container">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <i class="pi pi-spin pi-cog" style="font-size: 2rem"></i>
+                <span class="logo-text">Stock Manager</span>
             </div>
         </div>
-    </div>
-</div>
+    
+        <div class="sidebar-content">
+            <div class="menu-section">
+                <p-panelMenu [model]="items" styleClass="custom-sidebar"></p-panelMenu>
+            </div>
+        </div>
+    
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="/assets/david_user.jpg" width="100%" height="100%" alt="">
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Usuário</span>
+                    <span class="user-role">Administrador</span>
+                </div>
+            </div>
+        </div>
+    </div>    
+}
+

@@ -27,9 +27,9 @@
         <span class="notification-badge">5</span>
       </button>
 
-      <div class="user-menu" (click)="op.toggle($event)">
+      <div class="user-menu" >
         <div class="user-info">
-          <img src="assets/avatar.png" alt="User" class="user-avatar">
+          <img src="assets/david_user.jpg" alt="User" class="user-avatar">
           <div class="user-details">
             <span class="user-name">John Doe</span>
             <span class="user-role">Administrador</span>
@@ -39,30 +39,4 @@
       </div>
     </div>
   </div>
-
-  <p-overlayPanel #op>
-    <div class="user-menu-content">
-      <div class="menu-header">
-        <img src="assets/avatar.png" alt="User" class="menu-avatar">
-        <div class="menu-user-info">
-          <span class="menu-user-name">John Doe</span>
-          <span class="menu-user-email">john.doeexample.com</span>
-        </div>
-      </div>
-      <div class="menu-items">
-        <button class="menu-item">
-          <i class="pi pi-user"></i>
-          <span>Meu Perfil</span>
-        </button>
-        <button class="menu-item">
-          <i class="pi pi-cog"></i>
-          <span>Configurações</span>
-        </button>
-        <button class="menu-item">
-          <i class="pi pi-sign-out"></i>
-          <span>Sair</span>
-        </button>
-      </div>
-    </div>
-  </p-overlayPanel>
 </div>

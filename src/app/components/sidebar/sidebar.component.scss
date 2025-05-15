@@ -2,13 +2,14 @@
   display: block;
   height: 100vh;
   background: linear-gradient(180deg, var(--primary-800) 0%, var(--primary-900) 100%);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg)
 }
 
 .sidebar-container {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 0.5rem;
   color: var(--primary-color-text);
 }
 
@@ -88,7 +89,9 @@
       align-items: center;
       justify-content: center;
       border: 2px solid var(--primary-200);
-
+      img {
+        border-radius: 50%;
+      };
       i {
         font-size: 1.25rem;
         color: var(--primary-200);

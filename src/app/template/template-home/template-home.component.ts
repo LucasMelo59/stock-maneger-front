@@ -14,9 +14,10 @@ import { CommonModule } from '@angular/common';
 })
 export class TemplateHomeComponent {
   
-  toggleSidebar() {
-    const sidebar = document.querySelector('.layout-sidebar');
-    sidebar?.classList.toggle('active');
+  visible: boolean = true
+
+  toggleSidebar(visible: boolean) {
+    this.visible = visible
   }
 
 }

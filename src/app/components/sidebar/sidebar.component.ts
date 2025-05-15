@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PanelMenuModule } from 'primeng/panelmenu';
@@ -12,6 +12,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 })
 export class SidebarComponent {
   items: any[] = [];
+  visible = input.required<boolean>()
+  visibleOutput = output<boolean>()
+
 
   ngOnInit() {
     this.items = [
@@ -120,4 +123,7 @@ export class SidebarComponent {
       }
     ];
   }
+
+
+
 }
