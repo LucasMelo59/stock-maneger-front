@@ -50,7 +50,8 @@
                   "maximumError": "2mb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/stock-manager-front/"
             },
             "development": {
               "optimization": false,
