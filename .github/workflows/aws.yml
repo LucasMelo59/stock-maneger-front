@@ -35,7 +35,7 @@ env:
   ECR_REPOSITORY: quarkus-app/stock-flow           # set this to your Amazon ECR repository name
   ECS_SERVICE: stock-flow-front                 # set this to your Amazon ECS service name
   ECS_CLUSTER: electric-crocodile-gkydu4                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .github/workflow/task-front.json # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: .github/workflows/task-front.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: angular-app           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
