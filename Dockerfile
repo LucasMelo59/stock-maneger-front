@@ -14,4 +14,4 @@ COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=builder /app/dist/stock-manager-front/browser /usr/share/nginx/html/stock-manager-front
 
-EXPOSE 80
+EXPOSE 8080
