@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, output, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -21,12 +21,10 @@ import { TooltipModule } from 'primeng/tooltip';
   styleUrl: './topbar.component.scss'
 })
 export class TopbarComponent {
-
-  sidebarVisibleOutput = output<boolean>()
-  visible: boolean  = true
+  sidebarVisibleOutput = output<boolean>();
+  sidebarVisible = input<boolean>(true);
 
   toggleSidebar() {
-    this.visible = !this.visible
-    this.sidebarVisibleOutput.emit(this.visible)
+    this.sidebarVisibleOutput.emit(!this.sidebarVisible());
   }
 }

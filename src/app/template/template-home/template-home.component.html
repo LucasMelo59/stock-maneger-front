@@ -1,8 +1,8 @@
 <div class="layout-wrapper">
-  <app-sidebar class="layout-sidebar" [ngClass]="{'collapsed': !visible}" [visible]="visible" ></app-sidebar>
+  <app-sidebar class="layout-sidebar" [ngClass]="{'collapsed': !visible, 'active': visible}" [visible]="visible"></app-sidebar>
   
   <div [ngClass]="{'collapsed-margin': !visible}" class="layout-main-with-sidebar">
-    <app-topbar  (sidebarVisibleOutput)="toggleSidebar($event)" ></app-topbar>
+    <app-topbar [sidebarVisible]="visible" (sidebarVisibleOutput)="toggleSidebar($event)"></app-topbar>
 
     <main class="layout-content">
       <ng-content></ng-content>

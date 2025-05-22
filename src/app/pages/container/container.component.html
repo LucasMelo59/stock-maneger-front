@@ -1,0 +1,57 @@
+<div class="container">
+  <p-card>
+    <p-toolbar class="mb-4">
+      <ng-template pTemplate="left">
+        <h2>Novo Container</h2>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-toolbar-group-right">
+          <button pButton icon="pi pi-arrow-left" label="Voltar" class="p-button-secondary mr-2" (click)="cancel()"></button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
+    <div class="card-content">
+      <form [formGroup]="containerForm" (ngSubmit)="saveContainer()">
+        <div class="field">
+          <label for="containerName">Nome do Container</label>
+          <input id="containerName" type="text" pInputText formControlName="name" class="w-full">
+          <small class="p-error" *ngIf="containerForm.get('name')?.invalid && containerForm.get('name')?.touched">
+            Nome é obrigatório
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="containerDescription">Descrição</label>
+          <textarea id="containerDescription" pInputTextarea formControlName="description" class="w-full" rows="4"></textarea>
+          <small class="p-error" *ngIf="containerForm.get('description')?.invalid && containerForm.get('description')?.touched">
+            Descrição é obrigatória
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="containerLocation">Localização</label>
+          <input id="containerLocation" type="text" pInputText formControlName="location" class="w-full">
+          <small class="p-error" *ngIf="containerForm.get('location')?.invalid && containerForm.get('location')?.touched">
+            Localização é obrigatória
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="containerType">Tipo</label>
+          <input id="containerType" type="text" pInputText formControlName="type" class="w-full">
+          <small class="p-error" *ngIf="containerForm.get('type')?.invalid && containerForm.get('type')?.touched">
+            Tipo é obrigatório
+          </small>
+        </div>
+
+        <div class="form-actions">
+          <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
+          <button pButton type="submit" label="Salvar" icon="pi pi-check" class="custom-button" [loading]="loading"></button>
+        </div>
+      </form>
+    </div>
+  </p-card>
+  
+  <p-toast></p-toast>
+</div>

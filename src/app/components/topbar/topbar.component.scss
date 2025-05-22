@@ -24,9 +24,42 @@
   .menu-button {
     width: 2.5rem;
     height: 2.5rem;
+    overflow: visible !important;
+    position: relative;
     
     &:hover {
       background: var(--surface-hover);
+    }
+    
+    /* Animação do ícone de menu */
+    ::ng-deep .pi-bars {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    &:hover ::ng-deep .pi-bars {
+      transform: rotate(5deg) scale(1.1);
+    }
+    
+    /* Efeito de ripple customizado */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(33, 150, 243, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      transition: all 0.4s ease;
+      pointer-events: none;
+    }
+    
+    &:active::after {
+      transform: translate(-50%, -50%) scale(20);
+      opacity: 1;
+      transition: all 0.3s ease;
     }
   }
 
@@ -224,5 +257,48 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .topbar {
+    padding: 0 var(--spacing-md);
+    height: 3.2rem;
+  }
+  .topbar-right {
+    gap: var(--spacing-md);
+  }
+  .search-box {
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: var(--spacing-xs);
+    gap: 0.5rem;
+  }
+  .topbar-left {
+    width: 100%;
+    justify-content: flex-start;
+    gap: var(--spacing-xs);
+  }
+  .topbar-right {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+  .search-box {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .topbar-actions {
+    width: 100%;
+    justify-content: flex-start;
+    gap: var(--spacing-xs);
   }
 }

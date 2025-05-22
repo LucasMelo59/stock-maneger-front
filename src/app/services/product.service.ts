@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CreateProductDTO } from './home.service';
 
 export interface Product {
   id?: number;
@@ -14,11 +15,25 @@ export interface Product {
   category_id?: number;
 }
 
+export interface ProductDetail {
+  id: number;
+  name: string;
+  type: string;
+  createAt: string;
+  updateAt: string;
+  active: boolean;
+  sku: string;
+  category: {
+    id: number;
+    description: string;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = `${environment.apiUrl}/products`;
+  private apiUrl = `${environment.apiUrl}/product`;
 
   constructor(private http: HttpClient) { }
 
@@ -26,12 +41,16 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiUrl);
   }
 
+  getAllProducts(): Observable<ProductDetail[]> {
+    return this.http.get<ProductDetail[]>(`${this.apiUrl}`);
+  }
+
   getProduct(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${this.apiUrl}  `, product);
+  createProduct(product: CreateProductDTO): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {

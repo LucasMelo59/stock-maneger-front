@@ -1,0 +1,102 @@
+<div class="container">
+  <p-card>
+    <p-toolbar class="mb-4">
+      <ng-template pTemplate="left">
+        <h2>Nova Movimentação de Estoque</h2>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-toolbar-group-right">
+          <button pButton icon="pi pi-arrow-left" label="Voltar" class="p-button-secondary mr-2" (click)="cancel()"></button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
+    <div class="card-content">
+      <form [formGroup]="stockForm" (ngSubmit)="saveStock()">
+        <div class="form-grid">
+          <div class="field">
+            <label for="productId">Produto</label>
+            <p-dropdown id="productId" [options]="products" formControlName="productId" optionLabel="name" optionValue="id" 
+                        [filter]="true" filterBy="name,sku" [showClear]="true" placeholder="Selecione um produto"
+                        [loading]="productsLoading" class="w-full">
+              <ng-template pTemplate="selectedItem" let-product>
+                <div *ngIf="product">ID: {{product.id}} - {{product.name}} ({{product.type}}) - {{product.category.description}}</div>
+              </ng-template>
+              <ng-template pTemplate="item" let-product>
+                <div>ID: {{product.id}} - {{product.name}} ({{product.type}}) - {{product.category.description}}</div>
+              </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="stockForm.get('productId')?.invalid && stockForm.get('productId')?.touched">
+              Produto é obrigatório
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="userId">Usuário</label>
+            <p-dropdown id="userId" [options]="users" formControlName="userId" optionLabel="name" optionValue="id" 
+                        [filter]="true" filterBy="name" [showClear]="true" placeholder="Selecione um usuário"
+                        [loading]="usersLoading" class="w-full">
+              <ng-template pTemplate="selectedItem" let-user>
+                <div *ngIf="user">ID: {{user.id}} - {{user.name}} ({{user.typeUser}})</div>
+              </ng-template>
+              <ng-template pTemplate="item" let-user>
+                <div>ID: {{user.id}} - {{user.name}} ({{user.typeUser}})</div>
+              </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="stockForm.get('userId')?.invalid && stockForm.get('userId')?.touched">
+              Usuário é obrigatório
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="containerId">Container</label>
+            <p-dropdown id="containerId" [options]="containers" formControlName="containerId" optionLabel="name" optionValue="id" 
+                        [filter]="true" filterBy="name,location" [showClear]="true" placeholder="Selecione um container"
+                        [loading]="containersLoading" class="w-full">
+              <ng-template pTemplate="selectedItem" let-container>
+                <div *ngIf="container">ID: {{container.id}} - {{container.name}} ({{container.type}}) - {{container.location}}</div>
+              </ng-template>
+              <ng-template pTemplate="item" let-container>
+                <div>ID: {{container.id}} - {{container.name}} ({{container.type}}) - {{container.location}}</div>
+              </ng-template>
+            </p-dropdown>
+            <small class="p-error" *ngIf="stockForm.get('containerId')?.invalid && stockForm.get('containerId')?.touched">
+              Container é obrigatório
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="event">Tipo de Evento</label>
+            <p-dropdown id="event" [options]="eventTypes" formControlName="event" optionLabel="label" optionValue="value" class="w-full"></p-dropdown>
+            <small class="p-error" *ngIf="stockForm.get('event')?.invalid && stockForm.get('event')?.touched">
+              Tipo de Evento é obrigatório
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="unitValue">Valor Unitário</label>
+            <p-inputNumber id="unitValue" formControlName="unitValue" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" class="w-full"></p-inputNumber>
+            <small class="p-error" *ngIf="stockForm.get('unitValue')?.invalid && stockForm.get('unitValue')?.touched">
+              Valor Unitário é obrigatório
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="quantity">Quantidade</label>
+            <p-inputNumber id="quantity" formControlName="quantity" class="w-full"></p-inputNumber>
+            <small class="p-error" *ngIf="stockForm.get('quantity')?.invalid && stockForm.get('quantity')?.touched">
+              Quantidade é obrigatória
+            </small>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
+          <button pButton type="submit" label="Salvar" icon="pi pi-check" class="custom-button" [loading]="loading"></button>
+        </div>
+      </form>
+    </div>
+  </p-card>
+  
+  <p-toast></p-toast>
+</div>

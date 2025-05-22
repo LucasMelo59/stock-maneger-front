@@ -1,0 +1,76 @@
+<div class="container">
+  <p-card>
+    <p-toolbar class="mb-4">
+      <ng-template pTemplate="left">
+        <h2>Novo Usuário</h2>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-toolbar-group-right">
+          <button pButton icon="pi pi-arrow-left" label="Voltar" class="p-button-secondary mr-2" (click)="cancel()"></button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
+    <div class="card-content">
+      <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+        <div class="field">
+          <label for="userName">Nome do Usuário</label>
+          <input id="userName" type="text" pInputText formControlName="name" class="w-full">
+          <small class="p-error" *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+            Nome é obrigatório
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="userType">Tipo</label>
+          <p-dropdown id="userType" [options]="userTypes" formControlName="type" optionLabel="label" optionValue="value" class="w-full"></p-dropdown>
+          <small class="p-error" *ngIf="userForm.get('type')?.invalid && userForm.get('type')?.touched">
+            Tipo é obrigatório
+          </small>
+        </div>
+
+        <div class="documentation-section">
+          <h3>Documentação</h3>
+          
+          <div formArrayName="documentation">
+            <div *ngFor="let doc of documentationControls; let i = index" [formGroupName]="i" class="documentation-item">
+              <h4>Documento {{i + 1}}</h4>
+              <div class="field">
+                <label>Tipo</label>
+                <p-dropdown [options]="documentTypes" formControlName="type" optionLabel="label" optionValue="value" class="w-full"></p-dropdown>
+              </div>
+              <div class="field">
+                <label>Descrição</label>
+                <input type="text" pInputText formControlName="description" class="w-full">
+              </div>
+              <div class="field">
+                <label>Número</label>
+                <input type="text" pInputText formControlName="reference_number" class="w-full">
+              </div>
+              <div class="field">
+                <label>Data de Emissão</label>
+                <p-calendar formControlName="issue_date" dateFormat="yy-mm-dd" class="w-full"></p-calendar>
+              </div>
+              <div class="field">
+                <label>Órgão Emissor</label>
+                <input type="text" pInputText formControlName="issuing_body" class="w-full">
+              </div>
+              <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text doc-remove-btn" (click)="removeDocument(i)"></button>
+            </div>
+          </div>
+          
+          <div class="add-doc-wrapper">
+            <button pButton type="button" label="Adicionar Documento" icon="pi pi-plus" class="p-button-text" (click)="addDocument()"></button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel()"></button>
+          <button pButton type="submit" label="Salvar" icon="pi pi-check" class="custom-button" [loading]="loading"></button>
+        </div>
+      </form>
+    </div>
+  </p-card>
+  
+  <p-toast></p-toast>
+</div>

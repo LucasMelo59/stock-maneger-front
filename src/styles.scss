@@ -109,12 +109,24 @@ body {
     left: 0;
     top: 0;
     z-index: 999;
-    transition: width 0.5s ease;
-    overflow: hidden; /* para evitar conteúdo "vazar" quando diminuir */
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transform-origin: left center;
 }
 
 .layout-sidebar.collapsed {
     width: 0;
+    opacity: 0;
+    transform: translateX(-20px);
+    box-shadow: none;
+    visibility: hidden;
+}
+
+.layout-sidebar.active {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Conteúdo principal com sidebar */
@@ -123,7 +135,13 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: width 1s ease;
+    transition: margin-left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: calc(100% - 280px);
+}
+
+.collapsed-margin {
+    margin-left: 0 !important;
+    width: 100% !important;
 }
 
 /* Tipografia */
@@ -163,18 +181,150 @@ a {
 .bg-primary { background-color: var(--primary-color); }
 .bg-surface { background-color: var(--surface-card); }
 
-/* Responsividade */
+/* Responsividade aprimorada */
 @media screen and (max-width: 991px) {
     .layout-sidebar {
         transform: translateX(-100%);
-        
-        &.active {
-            transform: translateX(0);
-        }
+        width: 280px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .layout-sidebar.active {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .layout-sidebar.collapsed {
+        transform: translateX(-100%);
+        opacity: 0;
+        visibility: hidden;
     }
     
     .layout-main-with-sidebar {
         margin-left: 0;
+        width: 100%;
+    }
+    .layout-content {
+        padding: var(--spacing-md);
+    }
+    .layout-topbar {
+        padding: 0 var(--spacing-md);
+        height: 3.2rem;
+    }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+    
+    .btn-group {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .layout-sidebar {
+        width: 100vw;
+        min-width: 0;
+    }
+    .layout-content {
+        padding: var(--spacing-xs);
+    }
+    .layout-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: var(--spacing-xs);
+    }
+    h1, h2, h3, h4, h5, h6 {
+        margin: 1rem 0 0.5rem 0;
+    }
+    .p-dialog {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        left: 0 !important;
+        margin: 0 !important;
+    }
+    .p-dialog .p-dialog-content {
+        padding: 0.5rem !important;
+    }
+    .p-dialog .p-dialog-header, .p-dialog .p-dialog-footer {
+        padding: 0.5rem !important;
+    }
+    .p-datatable-wrapper {
+        overflow-x: auto;
+    }
+    .p-datatable-table {
+        min-width: 600px;
+    }
+    
+    /* Melhoria para botões em mobile */
+    .p-button {
+        font-size: 0.9rem !important;
+        padding: 0.4rem 0.8rem !important;
+    }
+    
+    .p-toolbar-group-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* Ajustes para formulários */
+    .field {
+        margin-bottom: 0.75rem;
+    }
+    
+    .card {
+        padding: 0.5rem !important;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Classe para grupos de botões responsivos */
+.btn-group {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+}
+
+@media screen and (max-width: 480px) {
+    html {
+        font-size: 12px;
+    }
+    
+    .p-button {
+        font-size: 0.85rem !important;
+        padding: 0.3rem 0.6rem !important;
+    }
+    
+    .p-button .p-button-icon {
+        font-size: 0.9rem;
+    }
+    
+    .p-toolbar {
+        padding: 0.5rem !important;
+    }
+    
+    /* Título da página */
+    h2 {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* Utilitário para tabelas responsivas */
+.responsive-table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+/* Utilitário para esconder elementos em mobile */
+.hide-mobile {
+    display: none !important;
+}
+@media screen and (min-width: 601px) {
+    .hide-desktop {
+        display: none !important;
     }
 }
 
