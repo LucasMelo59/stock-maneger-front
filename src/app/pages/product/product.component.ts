@@ -7,10 +7,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { ProductService } from '../../services/product.service';
+import { ProductService, Category } from '../../services/product.service';
 import { CreateProductDTO } from '../../services/home.service';
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
+import { DropdownModule } from 'primeng/dropdown';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -24,7 +26,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     ToastModule,
     RouterModule,
     CardModule,
-    ToolbarModule
+    ToolbarModule,
+    DropdownModule
   ],
   providers: [MessageService],
   templateUrl: './product.component.html',
@@ -33,6 +36,14 @@ import { ToolbarModule } from 'primeng/toolbar';
 export class ProductComponent implements OnInit {
   productForm!: FormGroup;
   loading = false;
+  categoriesLoading = false;
+  categories: Category[] = [];
+
+  productTypes = [
+    { label: 'Físico', value: '1' },
+    { label: 'Digital', value: '2' },
+    { label: 'Serviço', value: '3' }
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,15 +54,35 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.loadCategories();
   }
 
   private initForm() {
     this.productForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      type: ['', [Validators.required]],
+      type: [{value: '1', disabled: false}, [Validators.required]],
       sku: ['', [Validators.required]],
       category_id: [null, [Validators.required]]
     });
+  }
+
+  loadCategories() {
+    this.categoriesLoading = true;
+    this.productService.getAllCategories()
+      .pipe(finalize(() => this.categoriesLoading = false))
+      .subscribe({
+        next: (data) => {
+          this.categories = data;
+        },
+        error: (error) => {
+          console.error('Erro ao carregar categorias:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Não foi possível carregar a lista de categorias'
+          });
+        }
+      });
   }
 
   saveProduct() {
@@ -66,7 +97,10 @@ export class ProductComponent implements OnInit {
     }
 
     this.loading = true;
-    const productData: CreateProductDTO = this.productForm.value;
+    const productData: CreateProductDTO = {
+      ...this.productForm.getRawValue(),
+      type: '1'
+    };
 
     this.productService.createProduct(productData).subscribe({
       next: () => {
@@ -76,7 +110,6 @@ export class ProductComponent implements OnInit {
           detail: 'Produto cadastrado com sucesso'
         });
         this.loading = false;
-        // Redirecionar após um breve delay para mostrar a mensagem
         setTimeout(() => {
           this.router.navigate(['/home']);
         }, 1500);

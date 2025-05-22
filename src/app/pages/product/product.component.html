@@ -23,10 +23,8 @@
 
         <div class="field">
           <label for="productType">Tipo</label>
-          <input id="productType" type="text" pInputText formControlName="type" class="w-full">
-          <small class="p-error" *ngIf="productForm.get('type')?.invalid && productForm.get('type')?.touched">
-            Tipo é obrigatório
-          </small>
+          <div class="fixed-field">Físico</div>
+          <small class="field-info">Este valor não pode ser alterado</small>
         </div>
 
         <div class="field">
@@ -38,8 +36,17 @@
         </div>
 
         <div class="field">
-          <label for="categoryId">ID da Categoria</label>
-          <p-inputNumber id="categoryId" formControlName="category_id" class="w-full"></p-inputNumber>
+          <label for="categoryId">Categoria</label>
+          <p-dropdown id="categoryId" [options]="categories" formControlName="category_id" optionLabel="description" optionValue="id" 
+                      class="w-full" placeholder="Selecione uma categoria" [showClear]="true" [loading]="categoriesLoading"
+                      [filter]="true" filterBy="description">
+            <ng-template pTemplate="selectedItem" let-category>
+              <div *ngIf="category">{{category.description}}</div>
+            </ng-template>
+            <ng-template pTemplate="item" let-category>
+              <div>{{category.description}}</div>
+            </ng-template>
+          </p-dropdown>
           <small class="p-error" *ngIf="productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched">
             Categoria é obrigatória
           </small>

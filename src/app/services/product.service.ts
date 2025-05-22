@@ -29,6 +29,11 @@ export interface ProductDetail {
   };
 }
 
+export interface Category {
+  id: number;
+  description: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,6 +48,10 @@ export class ProductService {
 
   getAllProducts(): Observable<ProductDetail[]> {
     return this.http.get<ProductDetail[]>(`${this.apiUrl}`);
+  }
+
+  getAllCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.apiUrl}/all/category`);
   }
 
   getProduct(id: number): Observable<Product> {
