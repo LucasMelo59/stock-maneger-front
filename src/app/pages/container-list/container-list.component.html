@@ -1,0 +1,80 @@
+<div class="container">
+  <p-card>
+    <p-toolbar class="mb-4">
+      <ng-template pTemplate="left">
+        <h2>Lista de Containers</h2>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-toolbar-group-right">
+          <a routerLink="/container" pButton icon="pi pi-plus" label="Novo Container" class="p-button-primary mr-2"></a>
+          <a routerLink="/home" pButton icon="pi pi-home" label="Voltar" class="p-button-secondary mr-2"></a>
+          <button pButton icon="pi pi-refresh" (click)="loadContainers()" class="p-button-info" [loading]="loading"></button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
+    <div class="card-content">
+      <p-table 
+        [value]="containers" 
+        [paginator]="true" 
+        [rows]="10" 
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        [globalFilterFields]="['name', 'description', 'location', 'type']"
+        styleClass="p-datatable-gridlines"
+        [loading]="loading"
+        responsiveLayout="scroll"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} containers"
+      >
+        <ng-template pTemplate="caption">
+          <div class="table-header flex justify-content-between align-items-center">
+            <h3>Containers Cadastrados</h3>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" placeholder="Pesquisar..." #globalFilter />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="location">Localização <p-sortIcon field="location"></p-sortIcon></th>
+            <th pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
+            <th pSortableColumn="createAt">Data Criação <p-sortIcon field="createAt"></p-sortIcon></th>
+            <th pSortableColumn="updateAt">Última Atualização <p-sortIcon field="updateAt"></p-sortIcon></th>
+            <th pSortableColumn="active">Status <p-sortIcon field="active"></p-sortIcon></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-container>
+          <tr>
+            <td>{{container.id}}</td>
+            <td>{{container.name}}</td>
+            <td>{{container.description}}</td>
+            <td>{{container.location}}</td>
+            <td>{{getContainerType(container.type)}}</td>
+            <td>{{container.createAt | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td>{{container.updateAt | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td>
+              <span class="status-badge" [ngClass]="{'status-active': container.active, 'status-inactive': !container.active}">
+                {{container.active ? 'Ativo' : 'Inativo'}}
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8" class="text-center">Nenhum container encontrado.</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+          <div>Total de {{containers.length}} containers</div>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-card>
+  
+  <p-toast></p-toast>
+</div> 

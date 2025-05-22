@@ -6,11 +6,16 @@
       </ng-template>
       <ng-template pTemplate="right">
         <div class="p-toolbar-group-right">
-          <a routerLink="/product" pButton label="Novo Produto" icon="pi pi-plus" class="custom-button mr-2"></a>
+          <!-- <a routerLink="/product" pButton label="Novo Produto" icon="pi pi-plus" class="custom-button mr-2"></a>
           <a routerLink="/user" pButton label="Novo Usuário" icon="pi pi-user-plus" class="custom-button mr-2"></a>
-          <a routerLink="/container" pButton label="Novo Container" icon="pi pi-box" class="custom-button mr-2"></a>
+          <a routerLink="/container" pButton label="Novo Container" icon="pi pi-box" class="custom-button mr-2"></a> -->
           <a routerLink="/stock" pButton label="Nova Movimentação" icon="pi pi-shopping-cart" class="custom-button mr-2"></a>
-          <button pButton icon="pi pi-refresh" (click)="refreshData()" class="custom-button-secondary" pTooltip="Atualizar Lista"></button>
+          <!-- <div class="p-buttonset">
+            <a routerLink="/users" pButton icon="pi pi-users" pTooltip="Listar Usuários" class="p-button-info"></a>
+            <a routerLink="/products" pButton icon="pi pi-list" pTooltip="Listar Produtos" class="p-button-info"></a>
+            <a routerLink="/containers" pButton icon="pi pi-th-large" pTooltip="Listar Containers" class="p-button-info"></a>
+          </div> -->
+          <button pButton icon="pi pi-refresh" (click)="refreshData()" class="custom-button-secondary ml-2" pTooltip="Atualizar Lista"></button>
         </div>
       </ng-template>
     </p-toolbar>

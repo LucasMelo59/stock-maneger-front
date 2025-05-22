@@ -26,11 +26,6 @@ export class SidebarComponent {
             label: 'Dashboard',
             icon: 'pi pi-chart-bar',
             routerLink: ['/dashboard']
-          },
-          {
-            label: 'Visão Geral',
-            icon: 'pi pi-eye',
-            routerLink: ['/visao-geral']
           }
         ]
       },
@@ -41,12 +36,12 @@ export class SidebarComponent {
           {
             label: 'Usuários',
             icon: 'pi pi-users',
-            routerLink: ['/usuarios']
+            routerLink: ['/users']
           },
           {
-            label: 'Permissões',
-            icon: 'pi pi-lock',
-            routerLink: ['/permissoes']
+            label: 'Containers',
+            icon: 'pi pi-objects-column',
+            routerLink: ['/containers']
           }
         ]
       },
@@ -57,46 +52,31 @@ export class SidebarComponent {
           {
             label: 'Lista de Produtos',
             icon: 'pi pi-list',
-            routerLink: ['/produtos']
-          },
-          {
-            label: 'Cadastrar Produto',
-            icon: 'pi pi-plus',
-            routerLink: ['/produtos/novo']
-          },
-          {
-            label: 'Categorias',
-            icon: 'pi pi-tags',
-            routerLink: ['/categorias']
-          },
-          {
-            label: 'Fornecedores',
-            icon: 'pi pi-truck',
-            routerLink: ['/fornecedores']
+            routerLink: ['/products']
           }
         ]
       },
-      {
-        label: 'Relatórios',
-        icon: 'pi pi-file',
-        items: [
-          {
-            label: 'Vendas',
-            icon: 'pi pi-chart-line',
-            routerLink: ['/relatorios/vendas']
-          },
-          {
-            label: 'Estoque',
-            icon: 'pi pi-chart-pie',
-            routerLink: ['/relatorios/estoque']
-          },
-          {
-            label: 'Financeiro',
-            icon: 'pi pi-dollar',
-            routerLink: ['/relatorios/financeiro']
-          }
-        ]
-      },
+      // {
+      //   label: 'Relatórios',
+      //   icon: 'pi pi-file',
+      //   items: [
+      //     {
+      //       label: 'Vendas',
+      //       icon: 'pi pi-chart-line',
+      //       routerLink: ['/relatorios/vendas']
+      //     },
+      //     {
+      //       label: 'Estoque',
+      //       icon: 'pi pi-chart-pie',
+      //       routerLink: ['/relatorios/estoque']
+      //     },
+      //     {
+      //       label: 'Financeiro',
+      //       icon: 'pi pi-dollar',
+      //       routerLink: ['/relatorios/financeiro']
+      //     }
+      //   ]
+      // },
       {
         label: 'Configurações',
         icon: 'pi pi-sliders-h',
