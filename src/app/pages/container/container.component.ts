@@ -11,6 +11,7 @@ import { ContainerService } from '../../services/container.service';
 import { CreateContainerDTO } from '../../services/home.service';
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ContainerType } from './interfaces/container-type';
 
 @Component({
   selector: 'app-container',
@@ -33,6 +34,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 export class ContainerComponent implements OnInit {
   containerForm!: FormGroup;
   loading = false;
+  containerTypes = Object.values(ContainerType);
 
   constructor(
     private formBuilder: FormBuilder,
