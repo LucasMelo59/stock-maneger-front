@@ -16,6 +16,6 @@ export class MovementService {
   }
 
   createMovement(movement: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, movement);
+    return this.http.post<any>(`${this.apiUrl}/register/att`, movement);
   }
 } 
